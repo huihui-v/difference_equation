@@ -26,7 +26,7 @@ def run_test(config):
 
     # Compute (f, Phi_i)
     F = np.zeros((point_count, 1))
-    for i in range(1, point_count):
+    for i in range(1, point_count+1):
         func_to_ite = lambda x: function.f(x)*function.phi_i(step, i, x)
         F[i-1] = ite.rectangle(func_to_ite, step*(i-1), step*(i+1))
     
@@ -63,6 +63,66 @@ def run_test(config):
     
     plt.show()
 
+def run_test2(config):
+    left = config["region"]["left"]
+    right = config["region"]["right"]
+    point_count = config["count"] - 1
+    step = (right-left)/config["count"]
     
+    # Compute x
+    x = np.linspace(left, right, point_count)
+    y = function.u_explicit(x)
+
+    # Compute (f, Phi_i)
+    F = np.zeros((point_count, 1))
+    for i in range(1, point_count):
+        func_to_ite = lambda x: function.f(x)*function.phi_i(step, i, x)
+        F[i-1] = ite.rectangle(func_to_ite, step*(i-1), step*(i+1))
+    
+    # Compute A
+    A1 = np.zeros((point_count, point_count))
+    A2 = np.zeros((point_count, point_count))
+    for j in range(1, point_count+1):
+        for i in range(1, point_count+1):
+            func1 = lambda x: function.p(x)*function.dphi_i(step, i, x)*function.dphi_i(step,j,x)
+            func2 = lambda x: function.q(x)*function.phi_i(step, i, x)*function.phi_i(step,j,x)
+            if (abs(j-i) <= 1):
+                A1[j-1,i-1] = ite.rectangle(func1, step*(i-1), step*(i+1))
+                A2[j-1,i-1] = ite.rectangle(func2, step*(i-1), step*(i+1))
+            else:
+                A1[j-1,i-1] = 0
+                A2[j-1,i-1] = 0
+    A = A1+A2
+
+    # Solve equation Au = F
+    A_inv = np.linalg.inv(A)
+    u = A_inv*np.asmatrix(F)
+
+    # Plot
+    fig, ax_list = plt.subplots(2, 2, sharex=True)
+    ax_list[0, 0].set_title('u_explicit')
+    ax_list[0, 0].plot(x, y)
+
+    ax_list[0, 1].set_title('u_computed')
+    ax_list[0, 1].plot(x, u)
+    
+    ax_list[1, 0].set_title('comparison')
+    ax_list[1, 0].plot(x, u, label='u_computed')
+    ax_list[1, 0].plot(x, y, label='u_explicit')
+    ax_list[1, 0].legend()
+
+    ax_list[1, 1].set_title('error')
+    e = np.transpose(np.asmatrix(y)-np.transpose(u))
+    ax_list[1, 1].plot(x, e, label="u-y")
+    ax_list[1, 1].plot(x, 0*x, label='baseline')
+    ax_list[1, 1].set_ylim(-0.5, 0.5)
+    ax_list[1, 1].legend()
+    print ('average error: ', sum(e)/e.size)
+
+    plt.show()
+    
+    
+
 # main calling
-run_test(config["test1"])
+# run_test(config["test1"])
+run_test2(config["test2"])
