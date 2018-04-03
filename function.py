@@ -17,14 +17,19 @@ from numpy import *
 
 
 # function to test
+# 以下三个方程要同步修改(u,u的一阶导数，u的二阶导数)
+# 如果要拟合程度较好的结果，需要保证u在左右端点的值均为0
+# 左右端点值定义在config.conf中
 def u_explicit(x):
-    return (sin(pi*x))
+    return (sin(x))
 
 def du(x):
-    return (pi*cos(pi*x))
+    return (cos(x))
 
 def ddu(x):
-    return (-(pi**2)*sin(pi*x))
+    return (-sin(x))
+
+# 如果只是想要验证算法拟合结果，无需修改下方的f
 
 # right side of the equation
 def f(x):
@@ -50,6 +55,8 @@ def dphi_i(h, i, x):
     else:
         return 0
 
+# 以下三个方程可以根据情况修改，为微分方程中的参量
+
 def p(x):
     return (x**2)
 
@@ -58,3 +65,40 @@ def dp(x):
 
 def q(x):
     return (sin(exp(x)))
+
+# 以下两个函数为基函数，不能修改！
+
+# c: 小区间左端点坐标
+# d: 小区间右端点坐标
+# l: 第l个基函数,l = 0,1,...,k
+# k: k值,即有限元的次数
+def phi(c,d,l,k,x):
+    x_t = linspace(c,d,k+1)
+    if (x <= c or x >= d):
+        return 0
+    res = 1
+    for i in range(0,k+1):
+        if (i == l):
+            continue
+        else:
+            res = res * ((x-x_t[i])/(x_t[l]-x_t[i]))
+    return res
+
+def dphi(c,d,l,k,x):
+    x_t = linspace(c,d,k+1)
+    if (x <= c or x >= d):
+        return 0
+    res = 0
+    for i in range(0,k+1):
+        res_t = 1
+        if (i == l):
+            continue
+        for j in range(0,k+1):
+            if (j == l):
+                continue
+            elif (j == i):
+                res_t = res_t/(x_t[l]-x_t[j])
+            else:
+                res_t = res_t*((x-x_t[j])/(x_t[l]-x_t[j]))
+        res = res + res_t
+    return res
