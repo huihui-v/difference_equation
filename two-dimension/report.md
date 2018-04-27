@@ -42,7 +42,7 @@ $$
 $$
 \Sigma_j u_j\cdot a(\varphi_j, \varphi_i) = (f,\varphi_i), \ i = 1,2,...,N \\
 where\ a(\varphi_i, \varphi_j) = \int_P \nabla\varphi_i\cdot\nabla\varphi_j, \\
-(f,\varphi_i) = \int_P f\cdot\varphi_i
+(f,\varphi_i) = \int_P f\cdot\varphi_i dxdy
 $$
 
 
@@ -66,15 +66,15 @@ $$
 $$
 ​	求单元刚度矩阵：
 $$
-a(\psi^{(1)},\psi^{(1)}) = \int_{P_0}(1-\xi)^2+(1-\eta)^2 = {2 \over 3}
+a(\psi^{(1)},\psi^{(1)}) = \int_{P_0}(1-\xi)^2+(1-\eta)^2 d\xi d\eta = {2 \over 3}
 $$
 ​	类似可得到：
 $$
 a(\psi^{(2)},\psi^{(2)}) = a(\psi^{(3)},\psi^{(3)}) = a(\psi^{(4)},\psi^{(4)}) = {2\over3} \\
 a(\psi^{(1)},\psi^{(2)}) = a(\psi^{(2)},\psi^{(3)}) = a(\psi^{(3)},\psi^{(4)}) = a(\psi^{(1)},\psi^{(4)}) = -{1\over6} \\
-a(\psi^{(1)},\psi^{(3)}) = a(\psi^{(2)},\psi^{(4)}) = -{1/3}
+a(\psi^{(1)},\psi^{(3)}) = a(\psi^{(2)},\psi^{(4)}) = -{1\over3}
 $$
-​	再由矩阵对称性便可以得到整个单元刚度矩阵：得到
+​	再由矩阵对称性便可以得到整个单元刚度矩阵，得到
 $$
 \left[
  \begin{matrix}   
