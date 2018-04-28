@@ -1,6 +1,6 @@
 from numpy import *
 
-raster_count = 500
+raster_count = 50
 
 # 积分计算函数
 # 输入参数：
@@ -31,3 +31,4 @@ def double_rec(u,l1,r1,l2,r2):
     f_in_Oxz = lambda y: lambda x: u(x,y)
     res += step2*rectangle(f_in_Oxz(item),l1,r1)
   return (res)
+
