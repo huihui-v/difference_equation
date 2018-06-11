@@ -94,7 +94,7 @@ $$
 
 ​	之后，将单元刚度矩阵组装成总体刚度矩阵，以某个节点为例：   
 
-
+![](C:\Users\xjf99\Desktop\project\difference_equation\static\3ddes1.png)
 
 ​	对于$N_1$来说，对其产生影响的网格只有其周围的八个节点，分别标记为$N_2 -N_9$。采用一维类似的影响叠加的方法，有
 $$
@@ -143,6 +143,16 @@ $$
 
      即可。
 
+     矩阵的图形化描述如图：
+
+     ![总体](C:\Users\xjf99\Desktop\project\difference_equation\static\Figure_1.png)
+
+     <div align = "center">总体</div>
+
+     ![](C:\Users\xjf99\Desktop\project\difference_equation\static\Figure_1-1.png)
+
+     <div align = "center">一个局部</div>
+
      在实现过程中，由于刚度矩阵过大，以标准的矩阵形式保存消耗较大，不可取。可以利用稀疏矩阵保存。问题最终转化为解以下方程：
      $$
      A\cdot u = F \\
@@ -173,7 +183,7 @@ $$
 
 ​	下图为二者的误差分布图像：
 
-​	![](../static/3dfig3.png)
+​	![](../static/Figure_1-2.png)
 
 ​	平均误差计算结果为0.00830287883352228，拟合程度比较好。
 
@@ -186,6 +196,28 @@ $$
 ​	/function.py中的方程RHS，u的精确解
 
 ​	/index.py中的剖分网格数
+
+​	
+
+​	程序运行方式：
+
+	1. 在根目录下打开终端，输入
+
+```bash
+pip install -r requirement.txt
+```
+
+​	安装所需要的依赖包。
+
+2. 输入
+
+```bash
+python index.py
+或者
+python3 index.py
+```
+
+​	程序会依次弹出 精确解图像，有限元方法解图像，误差图像。每个图像需要手动关闭，关闭之前可以进行操作，但程序不会继续运行，每次只弹出一个。（所以每个图像看完之后直接关闭这个图像就可以了，程序会继续向下执行。
 
 ------
 

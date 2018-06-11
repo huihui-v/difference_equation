@@ -40,7 +40,7 @@ def run():
           else:
             V.append(-1/3)
   A = sp.coo_matrix((V,(I,J)),shape=((N+1)**2, (N+1)**2))
-
+  pp.spy(A)
   # 创建方程RHS
   F = []
   F2 = []
@@ -71,7 +71,7 @@ def run():
   gridX,gridY = np.meshgrid(X,Y)
   err = (Z-f.u_exp(gridX,gridY))
   print ("平均误差为：",np.sum(abs(err))/(N+1)**2)
-  p.plot_points(X,Y,err,zlim=(0,1),heading=u"Error graph")
+  p.plot_points(X,Y,err,zlim=(0,0.1),heading=u"Error graph")
   
   return 0
 
